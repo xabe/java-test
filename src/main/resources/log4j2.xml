@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%-5p [%t] %d{ISO8601} %-40x [%c] %m%n" />
+		</Console>
+	</Appenders>
+	
+	<Loggers>
+		<Root level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+
+</Configuration>
