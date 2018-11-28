@@ -1,7 +1,12 @@
 package com.xabe.comparator;
 
+import com.xabe.builder.N;
+import com.xabe.builder.PersonBuilder;
+import com.xabe.builder.Y;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import java.util.function.Function;
 
 public class Person {
     private final String name;
@@ -12,6 +17,16 @@ public class Person {
         this.name = name;
         this.surname = surname;
         this.age = age;
+    }
+
+    public Person(PersonBuilder<Y,Y> personBuilder) {
+        this.age = personBuilder.getAge();
+        this.name = personBuilder.getName();
+        this.surname = personBuilder.getSurname();
+    }
+
+    public Person(Function<PersonBuilder<N, N>, PersonBuilder<Y, Y>> buildFn){
+        this(buildFn.apply(new PersonBuilder<>(){}));
     }
 
     public String getName() {
