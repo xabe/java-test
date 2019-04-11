@@ -1,18 +1,12 @@
 package com.xabe.builder;
 
-import com.xabe.comparator.Person;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-
 public abstract class PersonBuilder <Name extends IsSpecified,Surname extends IsSpecified> {
 
     private String name;
     private String surname;
     private int age;
 
-    private PersonBuilder(){};
+    public PersonBuilder(){};
 
     public static PersonBuilder<N,N> builder() {
         return new PersonBuilder<N,N>(){};
