@@ -23,16 +23,11 @@ public class ValidatorChain<T> {
 		this.validator = validator;
 	}
 
-	public static <T> ValidatorChain<T> use(Validator<T> validator) {
-		Objects.requireNonNull(validator, "Not Empty validator");
-		return new ValidatorChain<T>(validator);
-	}
-
-	public ValidatorChain<T> then(Validator<User> validatorEmail) {
+	public ValidatorChain<T> then(Validator<T> validator) {
 		Objects.requireNonNull(validator, "Not Empty validator");
 		return new ValidatorChain<T>( this, validator );
 	}
-	
+
 	public List<ValidationResult> validate(T item) {
 		final List<ValidationResult> results = new ArrayList<>();
 		if(this.validatorChain != null){
@@ -40,6 +35,11 @@ public class ValidatorChain<T> {
 		}
 		results.add(this.validator.validate(item));
 		return results.stream().filter(element -> !element.isValid() ).collect(Collectors.toList());
+	}
+
+	public static <T> ValidatorChain<T> use(Validator<T> validator) {
+		Objects.requireNonNull(validator, "Not Empty validator");
+		return new ValidatorChain<T>(validator);
 	}
 
 }

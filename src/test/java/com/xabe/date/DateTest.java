@@ -25,7 +25,6 @@ public class DateTest {
         final LocalDate date = LocalDate.now();
         log(date, hijrahDate);
         log(date.minus(1l, ChronoUnit.YEARS), hijrahDate.minus(1, ChronoUnit.YEARS));
-
     }
 
     private void log(LocalDate localDate, HijrahDate ramadan) {
