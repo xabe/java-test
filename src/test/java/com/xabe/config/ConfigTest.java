@@ -84,7 +84,7 @@ public class ConfigTest {
     @Test
     public void shouldLoadFileProperties() throws Exception {
         //Given
-        final String path = ConfigTest.class.getClassLoader().getResource("app.properties").getPath();
+        final String path = ConfigTest.class.getClassLoader().getResource("version.properties").getPath();
         final String decodePath = URLDecoder.decode(path, StandardCharsets.UTF_8.name());
         final Config config =  ConfigFactory.load(ConfigFactory.parseFile(new File(decodePath)));
 
