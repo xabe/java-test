@@ -11,20 +11,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"com.xabe.orika.mapper"})
-public class Config {
+public class ConfigOrika {
 
-    @Bean
-    public MapperFacade createMapperFacade(){
-        return new SpringOrikaBeanMapper();
-    }
+  @Bean
+  public MapperFacade createMapperFacade() {
+    return new SpringOrikaBeanMapper();
+  }
 
-    @Bean
-    public BeanMapper createBeanMapper(MapperFacade mapperFacade){
-        return new OrikaBeanMapperImpl(mapperFacade);
-    }
+  @Bean
+  public BeanMapper createBeanMapper(final MapperFacade mapperFacade) {
+    return new OrikaBeanMapperImpl(mapperFacade);
+  }
 
-    @Bean
-    public MapperComponent createMapperComponent(BeanMapper beanMapper){
-        return new MapperComponentImpl(beanMapper);
-    }
+  @Bean
+  public MapperComponent createMapperComponent(final BeanMapper beanMapper) {
+    return new MapperComponentImpl(beanMapper);
+  }
 }

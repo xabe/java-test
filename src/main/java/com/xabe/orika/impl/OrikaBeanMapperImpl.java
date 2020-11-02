@@ -1,34 +1,33 @@
 package com.xabe.orika.impl;
 
 import com.xabe.orika.BeanMapper;
+import java.util.List;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class OrikaBeanMapperImpl implements BeanMapper {
 
-    protected final MapperFacade mapper;
+  protected final MapperFacade mapperFacade;
 
-    @Autowired
-    public OrikaBeanMapperImpl(MapperFacade mapper) {
-        this.mapper = mapper;
-    }
+  @Autowired
+  public OrikaBeanMapperImpl(final MapperFacade mapperFacade) {
+    this.mapperFacade = mapperFacade;
+  }
 
-    @Override
-    public <T> List<T> mapList(List<?> source, Class<T> clazz) {
-        return mapper.mapAsList( source, clazz );
-    }
+  @Override
+  public <T> List<T> mapList(final List<?> source, final Class<T> clazz) {
+    return this.mapperFacade.mapAsList(source, clazz);
+  }
 
-    @Override
-    public <T> T map(Object source, Class<T> clazz) {
-        return mapper.map( source, clazz );
-    }
+  @Override
+  public <T> T map(final Object source, final Class<T> clazz) {
+    return this.mapperFacade.map(source, clazz);
+  }
 
-    @Override
-    public <T> void map(Object source, T dest) {
-        mapper.map( source, dest );
-    }
+  @Override
+  public <T> void map(final Object source, final T dest) {
+    this.mapperFacade.map(source, dest);
+  }
 }

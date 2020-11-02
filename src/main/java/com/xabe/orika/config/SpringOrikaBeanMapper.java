@@ -11,44 +11,45 @@ import org.springframework.context.ApplicationContextAware;
 
 public class SpringOrikaBeanMapper extends ConfigurableMapper implements ApplicationContextAware {
 
-    private MapperFactory factory;
-    private ApplicationContext applicationContext;
+  private MapperFactory factory;
 
-    public SpringOrikaBeanMapper() {
-        super(false);
-    }
+  private ApplicationContext applicationContext;
 
-    @Override
-    protected void configure(MapperFactory factory) {
-        this.factory = factory;
-        addAllSpringBeans();
-    }
+  public SpringOrikaBeanMapper() {
+    super(false);
+  }
 
-    @Override
-    protected void configureFactoryBuilder(DefaultMapperFactory.Builder factoryBuilder) {
-        super.configureFactoryBuilder( factoryBuilder );
-        factoryBuilder.useAutoMapping( true ).useBuiltinConverters( true );
-    }
+  @Override
+  protected void configure(final MapperFactory factory) {
+    this.factory = factory;
+    this.addAllSpringBeans();
+  }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-        this.init();
-    }
+  @Override
+  protected void configureFactoryBuilder(final DefaultMapperFactory.Builder factoryBuilder) {
+    super.configureFactoryBuilder(factoryBuilder);
+    factoryBuilder.useAutoMapping(true).useBuiltinConverters(true);
+  }
 
-    private void addAllSpringBeans() {
-        applicationContext.getBeansOfType( Converter.class ).values().stream().forEach( converter -> addConverter(converter));
-        applicationContext.getBeansOfType( Mapper.class ).values().stream().forEach( mapper -> addMapper(mapper));
-    }
+  @Override
+  public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+    this.init();
+  }
 
-    public void addConverter(final Converter<?, ?> converter) {
-        factory.getConverterFactory().registerConverter( converter );
-    }
+  private void addAllSpringBeans() {
+    this.applicationContext.getBeansOfType(Converter.class).values().forEach(this::addConverter);
+    this.applicationContext.getBeansOfType(Mapper.class).values().forEach(this::addMapper);
+  }
 
-    public void addMapper(final Mapper<?, ?> mapper) {
-        factory.classMap( mapper.getAType(), mapper.getBType() )
-                .byDefault()
-                .customize( (Mapper) mapper )
-                .register();
-    }
+  public void addConverter(final Converter<?, ?> converter) {
+    this.factory.getConverterFactory().registerConverter(converter);
+  }
+
+  public void addMapper(final Mapper<?, ?> mapper) {
+    this.factory.classMap(mapper.getAType(), mapper.getBType())
+        .byDefault()
+        .customize((Mapper) mapper)
+        .register();
+  }
 }
