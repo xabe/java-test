@@ -11,6 +11,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @NoArgsConstructor(force = true)
-public class AccountDTO extends ProductDTO {
+public abstract class AccountDTO extends ProductDTO {
 
 }

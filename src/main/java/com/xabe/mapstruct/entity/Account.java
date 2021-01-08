@@ -11,6 +11,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @NoArgsConstructor(force = true)
-public class Account extends Product {
+public abstract class Account extends Product {
 
 }
