@@ -4,7 +4,7 @@ import com.xabe.combiner.ValidationResult;
 
 @FunctionalInterface
 public interface Validator<T> {
-	
-	ValidationResult validate(T item);
+
+  ValidationResult validate(T item);
 
 }

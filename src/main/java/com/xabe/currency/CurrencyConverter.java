@@ -13,50 +13,53 @@ import java.util.stream.Stream;
 
 public interface CurrencyConverter {
 
-    double convert(double amount);
+  double convert(double amount);
 
-    interface BiFunction {
-        Double convert(Double amount, String toCurrency);
+  interface BiFunction {
 
-        default CurrencyConverter to(String toCurrency) {
-            return amount -> convert(amount, toCurrency);
-        }
+    Double convert(Double amount, String toCurrency);
+
+    default CurrencyConverter to(final String toCurrency) {
+      return amount -> this.convert(amount, toCurrency);
     }
+  }
 
-    interface TriFunction {
-        Double convert(Double amount, String fromCurrency, String toCurrency);
+  interface TriFunction {
 
-        default BiFunction from(String fromCurrency) {
-            return (amount, toCurrency) -> convert(amount, fromCurrency, toCurrency);
-        }
+    Double convert(Double amount, String fromCurrency, String toCurrency);
+
+    default BiFunction from(final String fromCurrency) {
+      return (amount, toCurrency) -> this.convert(amount, fromCurrency, toCurrency);
     }
+  }
 
-    static TriFunction of(LocalDate date) {
+  static TriFunction of(final LocalDate date) {
 
-        return (amount, fromCurrency, toCurrency) -> {
-            final String path = CurrencyConverter.class.getClassLoader().getResource("data/currency.txt").getPath();
-            String decodePath = "";
-            try {
-                decodePath = URLDecoder.decode(path, StandardCharsets.UTF_8.name());
-            }catch (UnsupportedEncodingException e){}
-            try (Stream<String> lines = Files.lines(Path.of(decodePath))) {
+    return (amount, fromCurrency, toCurrency) -> {
+      final String path = CurrencyConverter.class.getClassLoader().getResource("data/currency.txt").getPath();
+      String decodePath = "";
+      try {
+        decodePath = URLDecoder.decode(path, StandardCharsets.UTF_8.name());
+      } catch (final UnsupportedEncodingException e) {
+      }
+      try (final Stream<String> lines = Files.lines(Path.of(decodePath))) {
 
-                Map<String, Double> converterMap =
-                        lines.skip(1L)
-                                .collect(
-                                        Collectors.toMap(
-                                                line -> line.substring(0, 3),
-                                                line -> Double.parseDouble(line.substring(4))
-                                        )
-                                );
+        final Map<String, Double> converterMap =
+            lines.skip(1L)
+                .collect(
+                    Collectors.toMap(
+                        line -> line.substring(0, 3),
+                        line -> Double.parseDouble(line.substring(4))
+                    )
+                );
 
-                return amount*(converterMap.get(toCurrency)/converterMap.get(fromCurrency));
+        return amount * (converterMap.get(toCurrency) / converterMap.get(fromCurrency));
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+      } catch (final IOException e) {
+        e.printStackTrace();
+      }
 
-            return null;
-        };
-    }
+      return null;
+    };
+  }
 }

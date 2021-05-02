@@ -1,5 +1,6 @@
 package com.xabe.builder;
 
 public interface EmailSubject {
-    EmailContent withSubject(String subject);
+
+  EmailContent withSubject(String subject);
 }

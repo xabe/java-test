@@ -1,38 +1,39 @@
 package com.xabe.combiner;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class User {
 
-	private final String name;
-	private final String email;
+  private final String name;
 
-	@Override
-	public boolean equals(final Object other) {
-		if (other instanceof User) {
-			User castOther = (User) other;
-			return new EqualsBuilder().append(name, castOther.name).append(email, castOther.email).isEquals();
-		}
-		return false;
-	}
+  private final String email;
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(name).append(email).toHashCode();
-	}
+  @Override
+  public boolean equals(final Object other) {
+    if (other instanceof User) {
+      final User castOther = (User) other;
+      return new EqualsBuilder().append(this.name, castOther.name).append(this.email, castOther.email).isEquals();
+    }
+    return false;
+  }
 
-	public User(String name, String email) {
-		this.name = name;
-		this.email = email;
-	}
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(this.name).append(this.email).toHashCode();
+  }
 
-	public String getName() {
-		return name;
-	}
+  public User(final String name, final String email) {
+    this.name = name;
+    this.email = email;
+  }
 
-	public String getEmail() {
-		return email;
-	}
+  public String getName() {
+    return this.name;
+  }
+
+  public String getEmail() {
+    return this.email;
+  }
 
 }

@@ -4,37 +4,38 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class Case <T, R> {
+public class Case<T, R> {
 
-    private final Predicate<T> predicate;
-    private final Function<T, R> value;
+  private final Predicate<T> predicate;
 
-    public Case(Predicate<T> predicate, Function<T, R> value) {
-        this.predicate = predicate;
-        this.value = value;
-    }
+  private final Function<T, R> value;
 
-    public boolean isMatching(T item) {
-        return predicate.test(item);
-    }
+  public Case(final Predicate<T> predicate, final Function<T, R> value) {
+    this.predicate = predicate;
+    this.value = value;
+  }
 
-    public R result(T item) {
-        return value.apply(item);
-    }
+  public boolean isMatching(final T item) {
+    return this.predicate.test(item);
+  }
 
-    public static <T,R> Case<T, R> matchCase(Predicate<T> predicate, Function<T,R> value){
-        return new Case<>(predicate, value);
-    }
+  public R result(final T item) {
+    return this.value.apply(item);
+  }
 
-    public static <T,R> Case<T, R> matchCase(Function<T,R> value){
-        return new Case<>(item -> true, value);
-    }
+  public static <T, R> Case<T, R> matchCase(final Predicate<T> predicate, final Function<T, R> value) {
+    return new Case<>(predicate, value);
+  }
 
-    public static <T,R> R match(T item, Case<T, R> defaultCase, Case<T, R> ...matches) {
-        return Stream.of(matches).
-                filter(match -> match.isMatching(item)).
-                map( match -> match.result(item)).
-                findFirst().
-                orElseGet(() -> defaultCase.result(item));
-    }
+  public static <T, R> Case<T, R> matchCase(final Function<T, R> value) {
+    return new Case<>(item -> true, value);
+  }
+
+  public static <T, R> R match(final T item, final Case<T, R> defaultCase, final Case<T, R>... matches) {
+    return Stream.of(matches).
+        filter(match -> match.isMatching(item)).
+        map(match -> match.result(item)).
+        findFirst().
+        orElseGet(() -> defaultCase.result(item));
+  }
 }

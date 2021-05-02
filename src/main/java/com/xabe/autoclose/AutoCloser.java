@@ -3,18 +3,18 @@ package com.xabe.autoclose;
 import java.util.function.Consumer;
 
 public class AutoCloser<T> {
-    
-    private T resource;
 
-    public AutoCloser(T resource) {
-        this.resource = resource;
-    }
+  private final T resource;
 
-    public AutoClosableSupplier closeWith(Consumer<T> closer){
-        return new AutoClosableSupplier(resource, closer);
-    }
+  public AutoCloser(final T resource) {
+    this.resource = resource;
+  }
 
-    public static <T> AutoCloser<T> useResource(T notAutoclosable) {
-        return new AutoCloser<T>(notAutoclosable);
-    }
+  public AutoClosableSupplier closeWith(final Consumer<T> closer) {
+    return new AutoClosableSupplier(this.resource, closer);
+  }
+
+  public static <T> AutoCloser<T> useResource(final T notAutoclosable) {
+    return new AutoCloser<T>(notAutoclosable);
+  }
 }

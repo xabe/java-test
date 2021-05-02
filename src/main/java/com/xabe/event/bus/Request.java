@@ -4,23 +4,24 @@ import java.time.LocalDateTime;
 
 public class Request {
 
-    private final String name;
-    private final LocalDateTime time;
+  private final String name;
 
-    public Request(String name, LocalDateTime time) {
-        this.name = name;
-        this.time = time;
-    }
+  private final LocalDateTime time;
 
-    public String getName() {
-        return name;
-    }
+  public Request(final String name, final LocalDateTime time) {
+    this.name = name;
+    this.time = time;
+  }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public static Request of(String name, LocalDateTime time) {
-        return new Request(name,time);
-    }
+  public LocalDateTime getTime() {
+    return this.time;
+  }
+
+  public static Request of(final String name, final LocalDateTime time) {
+    return new Request(name, time);
+  }
 }

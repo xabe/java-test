@@ -3,26 +3,25 @@ package com.xabe.combiner;
 import java.util.Optional;
 
 public interface ValidationResult {
-	
-	ValidationResult DEFAULT_VALIDATE = new ValidationResult() {
-		
-		@Override
-		public boolean isValid() {
-			return true;
-		}
-		
-		@Override
-		public Optional<String> getReason() {
-			return Optional.empty();
-		}
-	};
 
-	boolean isValid();
+  ValidationResult DEFAULT_VALIDATE = new ValidationResult() {
+    @Override
+    public boolean isValid() {
+      return true;
+    }
 
-	Optional<String> getReason();
+    @Override
+    public Optional<String> getReason() {
+      return Optional.empty();
+    }
+  };
 
-	static ValidationResult invalid(String reason) {
-		return new Invalid(reason);
-	}
+  boolean isValid();
+
+  Optional<String> getReason();
+
+  static ValidationResult invalid(final String reason) {
+    return new Invalid(reason);
+  }
 
 }

@@ -4,15 +4,16 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
 public class MetricsEventListenerBridge {
-    private final MetricsEventListener metricsEventListener;
 
-    public MetricsEventListenerBridge(MetricsEventListener metricsEventListener) {
-        this.metricsEventListener = metricsEventListener;
-    }
+  private final MetricsEventListener metricsEventListener;
 
-    @Async
-    @EventListener
-    public void asyncRequestHandler(RequestEvent requestEvent) {
-        this.metricsEventListener.onRequest(requestEvent);
-    }
+  public MetricsEventListenerBridge(final MetricsEventListener metricsEventListener) {
+    this.metricsEventListener = metricsEventListener;
+  }
+
+  @Async
+  @EventListener
+  public void asyncRequestHandler(final RequestEvent requestEvent) {
+    this.metricsEventListener.onRequest(requestEvent);
+  }
 }

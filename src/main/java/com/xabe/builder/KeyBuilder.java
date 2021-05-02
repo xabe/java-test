@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface KeyBuilder<K, V> {
 
-    ValueBuilder<K, V> key(K k);
+  ValueBuilder<K, V> key(K k);
 
-    Map<K, V> build();
+  Map<K, V> build();
 }

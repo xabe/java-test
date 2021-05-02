@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class InitialKeyBuilder {
 
-    public  <K> InitialValueBuilder<K> key(K k) {
-        return new InitialValueBuilder<>(k);
-    }
+  public <K> InitialValueBuilder<K> key(final K k) {
+    return new InitialValueBuilder<>(k);
+  }
 
-    public <K,V> Map<K, V> build() {
-        return new HashMap<>();
-    }
+  public <K, V> Map<K, V> build() {
+    return new HashMap<>();
+  }
 }

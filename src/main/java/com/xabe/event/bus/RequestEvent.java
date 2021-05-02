@@ -3,32 +3,35 @@ package com.xabe.event.bus;
 import java.time.LocalDateTime;
 
 public class RequestEvent {
-    private final String name;
-    private final LocalDateTime time;
 
-    public RequestEvent(String name, LocalDateTime time) {
+  private final String name;
 
-        this.name = name;
-        this.time = time;
-    }
+  private final LocalDateTime time;
 
-    public LocalDateTime getTime() {
-        return time;
-    }
+  public RequestEvent(final String name, final LocalDateTime time) {
 
-    public String getName() {
-        return name;
-    }
+    this.name = name;
+    this.time = time;
+  }
 
-    public static RequestEvent of(Request request) {
-        return new RequestEvent(request.getName(),request.getTime());
-    }
-    public static RequestEvent of(String event, LocalDateTime now) {
-        return new RequestEvent(event,now);
-    }
+  public LocalDateTime getTime() {
+    return this.time;
+  }
 
-    @Override
-    public String toString() {
-        return new StringBuilder("[RequesEvent : name :").append(getName()).append(" , time : ").append(getTime()).append(" ]").toString();
-    }
+  public String getName() {
+    return this.name;
+  }
+
+  public static RequestEvent of(final Request request) {
+    return new RequestEvent(request.getName(), request.getTime());
+  }
+
+  public static RequestEvent of(final String event, final LocalDateTime now) {
+    return new RequestEvent(event, now);
+  }
+
+  @Override
+  public String toString() {
+    return new StringBuilder("[RequesEvent : name :").append(this.getName()).append(" , time : ").append(this.getTime()).append(" ]").toString();
+  }
 }

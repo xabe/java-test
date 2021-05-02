@@ -1,55 +1,59 @@
 package com.xabe.builder;
 
-
 public class Email {
-    // To Address. Multiple Address separated by ","
-    private final String to;
-    //From Address
-    private final String from;
-    // Subject of the email
-    private final String subject;
-    // Content of the email
-    private final String content;
-    // BCC optional
-    private final String bcc;
-    // CC Optional
-    private final String cc;
 
+  // To Address. Multiple Address separated by ","
+  private final String to;
 
-    Email(String to, String from, String subject, String content, String bcc, String cc) {
-        this.to = to;
-        this.from = from;
-        this.subject = subject;
-        this.content = content;
-        this.bcc = bcc;
-        this.cc = cc;
-    }
+  //From Address
+  private final String from;
 
-    public String getTo() {
-        return to;
-    }
+  // Subject of the email
+  private final String subject;
 
-    public String getFrom() {
-        return from;
-    }
+  // Content of the email
+  private final String content;
 
-    public String getSubject() {
-        return subject;
-    }
+  // BCC optional
+  private final String bcc;
 
-    public String getContent() {
-        return content;
-    }
+  // CC Optional
+  private final String cc;
 
-    public String getBcc() {
-        return bcc;
-    }
+  Email(final String to, final String from, final String subject, final String content, final String bcc, final String cc) {
+    this.to = to;
+    this.from = from;
+    this.subject = subject;
+    this.content = content;
+    this.bcc = bcc;
+    this.cc = cc;
+  }
 
-    public String getCc() {
-        return cc;
-    }
+  public String getTo() {
+    return this.to;
+  }
 
-    public static EmailFrom builder() {
-        return new EmailBuilder();
-    }
+  public String getFrom() {
+    return this.from;
+  }
+
+  public String getSubject() {
+    return this.subject;
+  }
+
+  public String getContent() {
+    return this.content;
+  }
+
+  public String getBcc() {
+    return this.bcc;
+  }
+
+  public String getCc() {
+    return this.cc;
+  }
+
+  public static EmailFrom builder() {
+    return new EmailBuilder();
+  }
 }

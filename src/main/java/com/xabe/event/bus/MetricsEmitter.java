@@ -4,13 +4,13 @@ import java.util.concurrent.CompletableFuture;
 
 public class MetricsEmitter {
 
-    private final MetricsEventPublisher metricsEventPublisher;
+  private final MetricsEventPublisher metricsEventPublisher;
 
-    public MetricsEmitter(MetricsEventPublisher metricsEventPublisher) {
-        this.metricsEventPublisher = metricsEventPublisher;
-    }
+  public MetricsEmitter(final MetricsEventPublisher metricsEventPublisher) {
+    this.metricsEventPublisher = metricsEventPublisher;
+  }
 
-    public CompletableFuture<Void> emitRequestEvent(Request request) {
-        return this.metricsEventPublisher.publish(RequestEvent.of(request));
-    }
+  public CompletableFuture<Void> emitRequestEvent(final Request request) {
+    return this.metricsEventPublisher.publish(RequestEvent.of(request));
+  }
 }

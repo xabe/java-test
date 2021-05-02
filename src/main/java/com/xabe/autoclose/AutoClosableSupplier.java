@@ -4,16 +4,17 @@ import java.util.function.Consumer;
 
 public class AutoClosableSupplier<T> implements AutoCloseable {
 
-    private final T resource;
-    private final Consumer<T> closer;
+  private final T resource;
 
-    AutoClosableSupplier(T resource,Consumer<T> closer) {
-        this.resource = resource;
-        this.closer = closer;
-    }
+  private final Consumer<T> closer;
 
-    @Override
-    public void close() {
-        closer.accept(resource);
-    }
+  AutoClosableSupplier(final T resource, final Consumer<T> closer) {
+    this.resource = resource;
+    this.closer = closer;
+  }
+
+  @Override
+  public void close() {
+    this.closer.accept(this.resource);
+  }
 }

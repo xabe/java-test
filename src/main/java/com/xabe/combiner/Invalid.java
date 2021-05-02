@@ -4,20 +4,20 @@ import java.util.Optional;
 
 public class Invalid implements ValidationResult {
 
-	private final String reason;
+  private final String reason;
 
-	public Invalid(String reason) {
-		this.reason = reason;
-	}
+  public Invalid(String reason) {
+    this.reason = reason;
+  }
 
-	@Override
-	public boolean isValid() {
-		return false;
-	}
+  @Override
+  public boolean isValid() {
+    return false;
+  }
 
-	@Override
-	public Optional<String> getReason() {
-		return Optional.of(reason);
-	}
+  @Override
+  public Optional<String> getReason() {
+    return Optional.of(reason);
+  }
 
 }
