@@ -28,7 +28,7 @@
 
     <!-- log -->
     <slf4j.version>1.7.25</slf4j.version>
-    <log4j.version>2.13.3</log4j.version>
+    <log4j.version>2.17.1</log4j.version>
     <commons.version>3.4</commons.version>
 
     <!-- Test -->
@@ -188,7 +188,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.0</version>
+      <version>5.3.14</version>
     </dependency>
 
     <dependency>
