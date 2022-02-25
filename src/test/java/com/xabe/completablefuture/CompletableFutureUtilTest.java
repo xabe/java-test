@@ -1,6 +1,7 @@
 package com.xabe.completablefuture;
 
 import static java.util.stream.Collectors.toList;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -11,7 +12,6 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import io.vavr.Tuple2;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import io.vavr.Tuple2;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -32,7 +34,7 @@ public class CompletableFutureUtilTest {
 
   @Test
   @Timeout(10)
-  public void exampleParallelOrderedNoShortCircuiting() throws Exception {
+  public void exampleParallelOrderedShortCircuiting() throws Exception {
     final List<CompletableFuture<Integer>> completableFutures =
         IntStream.range(0, 10).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
           if (i != 9) {
@@ -51,8 +53,31 @@ public class CompletableFutureUtilTest {
   }
 
   @Test
-  @Timeout(value = 100, unit = TimeUnit.MILLISECONDS)
-  public void exampleParallelOrderedShortCircuiting() throws Exception {
+  @Timeout(5)
+  public void exampleParallelOrderedWithoutErrorsShortCircuiting() throws Exception {
+    final List<CompletableFuture<Integer>> completableFutures =
+        IntStream.range(0, 10).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
+          if (i != 9) {
+            try {
+              TimeUnit.MILLISECONDS.sleep(100);
+            } catch (final InterruptedException e) {
+              throw new RuntimeException(e);
+            }
+            return i;
+          } else {
+            throw new RuntimeException();
+          }
+        }, EXECUTOR)).collect(toList());
+
+    final List<Integer> result = CompletableFutureUtil.sequenceIgnoreFailure(completableFutures, EXECUTOR).join();
+
+    assertThat(result, is(notNullValue()));
+    assertThat(result, is(hasSize(9)));
+  }
+
+  @Test
+  @Timeout(2)
+  public void exampleParallelOrdered() throws Exception {
     final List<CompletableFuture<Integer>> completableFutures =
         IntStream.range(0, 10).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
           try {

@@ -1,13 +1,16 @@
 package com.xabe.completablefuture;
 
-import io.vavr.Tuple2;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import io.vavr.Tuple2;
 
 public class CompletableFutureUtil {
 
@@ -19,6 +22,26 @@ public class CompletableFutureUtil {
       f.handle((c, ex) -> ex == null || result.completeExceptionally(ex));
     }
     return result;
+  }
+
+  public static <T> CompletableFuture<List<T>> sequenceIgnoreFailure(final List<CompletableFuture<T>> futures,
+      final ExecutorService executorService) {
+    final CompletableFuture<List<T>> completableFuture = new CompletableFuture<>();
+    final Consumer<List<T>> consumer = completableFuture::complete;
+    CompletableFuture.allOf(futures.toArray(new CompletableFuture<?>[0]))
+        .handleAsync((voidResult, throwable) -> {
+          if (throwable == null) {
+            consumer.accept(futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
+          }
+          final List<T> result = futures.stream()
+              .filter(element -> !element.isCompletedExceptionally())
+              .map(CompletableFuture::join)
+              .filter(Objects::nonNull)
+              .collect(Collectors.toList());
+          consumer.accept(result);
+          return null;
+        }, executorService);
+    return completableFuture;
   }
 
   public static <T, R> CompletableFuture<T> fold(final List<CompletableFuture<T>> futures, final R identity,
